@@ -64,6 +64,7 @@
         if (this.element.hasClass('dropup'))
             this.drops = 'up';
 
+        this.showToday = true;
         this.buttonClasses = 'btn btn-sm';
         this.applyButtonClasses = 'btn-primary';
         this.cancelButtonClasses = 'btn-default';
@@ -217,6 +218,9 @@
 
         if (typeof options.drops === 'string')
             this.drops = options.drops;
+
+        if (typeof options.showToday === 'boolean')
+            this.showToday = options.showToday;
 
         if (typeof options.showWeekNumbers === 'boolean')
             this.showWeekNumbers = options.showWeekNumbers;
@@ -784,7 +788,7 @@
                     var classes = [];
 
                     //highlight today's date
-                    if (calendar[row][col].isSame(new Date(), "day"))
+                    if (this.showToday && calendar[row][col].isSame(new Date(), 'day'))
                         classes.push('today');
 
                     //highlight weekends
@@ -816,7 +820,7 @@
                         classes.push('active', 'end-date');
 
                     //highlight dates in-between the selected dates
-                    if (this.endDate != null && calendar[row][col] > this.startDate && calendar[row][col] < this.endDate)
+                    if (this.endDate != null && calendar[row][col].isAfter(this.startDate, 'day') && calendar[row][col].isBefore(this.endDate, 'day'))
                         classes.push('in-range');
 
                     //apply custom classes for this date
